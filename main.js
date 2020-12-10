@@ -5,7 +5,6 @@ const GAME_ID = "AI2DojFgOg4ytQpydSjH";
 const BASE_URL =
   "https://us-central1-js-capstone-backend.cloudfunctions.net/api";
 
-const refreshBtn = document.getElementById("refresh");
 const scoresList = document.getElementById("scores");
 
 const getCurrentScores = () => {
@@ -23,4 +22,27 @@ const getCurrentScores = () => {
     });
 };
 
+const postScore = () => {
+  const name = document.getElementById("player").value;
+  const score = parseInt(document.getElementById("score").value);
+  fetch(`${BASE_URL}/games/${GAME_ID}/scores/`, {
+    mode: "cors",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user: name,
+      score: score,
+    }),
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      alert(response.result);
+    });
+};
+
+const refreshBtn = document.getElementById("refresh");
 refreshBtn.onclick = getCurrentScores;
+const saveScoreBtn = document.getElementById("save-score");
+saveScoreBtn.onclick = postScore;
